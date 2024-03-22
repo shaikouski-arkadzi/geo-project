@@ -1,3 +1,4 @@
+import BackButton from './BackButton';
 import styles from './City.module.css';
 
 const formatDate = date =>
@@ -48,7 +49,7 @@ function City() {
       </div>
 
       <div>
-        <ButtonBack />
+        <BackButton />
       </div>
     </div>
   );
