@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import CityList from './components/CityList';
+import CountryList from './components/CountryList';
 import customData from './data/cities.json';
 import AppLayout from './pages/AppLayout';
 import Homepage from './pages/Homepage';
@@ -22,7 +23,7 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="app" element={<AppLayout />}>
           <Route index path="cities" element={<CityList cities={cities} />} />
-          <Route path="countries" element={<></>} />
+          <Route path="countries" element={<CountryList cities={cities} />} />
           <Route path="form" element={<></>} />
         </Route>
         <Route path="*" element={<PageNotFound />} />
