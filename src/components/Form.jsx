@@ -1,7 +1,9 @@
 // "https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=0&longitude=0"
 
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useUrlPosition } from '../hooks/useUrlPosition';
+import { useCities } from '../state/Cities.context';
 import BackButton from './BackButton';
 import Button from './Button';
 import Message from './Message';
@@ -27,7 +29,11 @@ function Form() {
   const [notes, setNotes] = useState('');
   const [emoji, setEmoji] = useState('');
 
+  const navigate = useNavigate();
+
   const [lat, lng] = useUrlPosition();
+
+  const { createCity } = useCities();
 
   useEffect(() => {
     if (!lat && !lng) return;
@@ -54,6 +60,24 @@ function Form() {
     fetchCityData();
   }, [lat, lng]);
 
+  const handleSubmit = async e => {
+    e.preventDefault();
+
+    if (!cityName || !date) return;
+
+    const newCity = {
+      cityName,
+      country,
+      emoji,
+      date,
+      notes,
+      position: { lat, lng },
+    };
+
+    await createCity(newCity);
+    navigate('/app/cities');
+  };
+
   if (isLoadingGeocoding) return <Spinner />;
 
   if (!lat && !lng) return <Message message="Start by clicking somewhere on the map" />;
@@ -61,7 +85,7 @@ function Form() {
   if (geocodingError) return <Message message={geocodingError} />;
 
   return (
-    <form className={styles.form}>
+    <form className={styles.form} onSubmit={handleSubmit}>
       <div className={styles.row}>
         <label htmlFor="cityName">City name</label>
         <input id="cityName" onChange={e => setCityName(e.target.value)} value={cityName} />
@@ -70,7 +94,7 @@ function Form() {
 
       <div className={styles.row}>
         <label htmlFor="date">When did you go to {cityName}?</label>
-        <input id="date" onChange={e => setDate(e.target.value)} value={date} />
+        <input id="date" type="date" onChange={e => setDate(e.target.value)} defaultValue={date} />
       </div>
 
       <div className={styles.row}>

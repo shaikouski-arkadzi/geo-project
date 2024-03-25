@@ -9,7 +9,13 @@ const CitiesProvider = ({ children }) => {
 
   const getCity = id => setCurrentCity(customData.find(x => x.id === Number(id)));
 
-  return <CitiesContext.Provider value={{ cities, currentCity, getCity }}>{children}</CitiesContext.Provider>;
+  const createCity = newCity => setCities(cities => [...cities, newCity]);
+
+  return (
+    <CitiesContext.Provider value={{ cities, currentCity, getCity, createCity }}>
+      {children}
+    </CitiesContext.Provider>
+  );
 };
 
 const useCities = () => {
