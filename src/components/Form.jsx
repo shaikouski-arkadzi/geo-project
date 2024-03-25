@@ -72,6 +72,7 @@ function Form() {
       date,
       notes,
       position: { lat, lng },
+      id: new Date().getTime(),
     };
 
     await createCity(newCity);
