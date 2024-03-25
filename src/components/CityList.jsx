@@ -1,8 +1,11 @@
+import { useCities } from '../state/Cities.context';
 import CityItem from './CityItem';
 import Message from './Message';
 import styles from './CityList.module.css';
 
-function CityList({ cities }) {
+function CityList() {
+  const { cities } = useCities();
+
   if (!cities.length) return <Message message="Add your first city by clicking on a city on the map" />;
 
   return (
