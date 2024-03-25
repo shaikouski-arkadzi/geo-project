@@ -5,8 +5,11 @@ const CitiesContext = createContext();
 
 const CitiesProvider = ({ children }) => {
   const [cities, setCities] = useState(customData);
+  const [currentCity, setCurrentCity] = useState({});
 
-  return <CitiesContext.Provider value={{ cities }}>{children}</CitiesContext.Provider>;
+  const getCity = id => setCurrentCity(customData.find(x => x.id === Number(id)));
+
+  return <CitiesContext.Provider value={{ cities, currentCity, getCity }}>{children}</CitiesContext.Provider>;
 };
 
 const useCities = () => {
