@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useCallback, useContext, useState } from 'react';
 import customData from '../data/cities.json';
 
 const CitiesContext = createContext();
@@ -7,7 +7,7 @@ const CitiesProvider = ({ children }) => {
   const [cities, setCities] = useState(customData);
   const [currentCity, setCurrentCity] = useState({});
 
-  const getCity = id => setCurrentCity(customData.find(x => x.id === Number(id)));
+  const getCity = useCallback(id => setCurrentCity(customData.find(x => x.id === Number(id))), []);
 
   const createCity = newCity => setCities(cities => [...cities, newCity]);
 
